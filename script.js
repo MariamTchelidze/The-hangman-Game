@@ -786,6 +786,7 @@ const I18N = {
     helpIntro: "აირჩიე ასოები და გამოიცანი დამალული პროგრამირების ტერმინი. რაუნდის დასრულებამდე ექვსი შეცდომის უფლება გაქვს.",
     helpInput: "ეკრანისა და ფიზიკური კლავიატურის გამოყენება ნებისმიერ დროს შეგიძლია.",
     helpHint: "თუ გაიჭედე, მინიშნება ერთ ასოს გაგიხსნის.",
+    helpHintPenalty: "თითო მინიშნება აკლებს: მარტივი −10, საშუალო −15, რთული −20, ეპიკური −30 ქულა.",
     helpDifficulty: "აირჩიე სირთულე ყოველი ახალი გამოწვევისთვის.",
     helpStreak: "ზედიზედ მოგებული რაუნდები შენს სერიას გაზრდის.",
     gotIt: "გასაგებია!",
@@ -808,6 +809,7 @@ const I18N = {
     correctAnswer: "სწორი პასუხი იყო",
     points: "ქულა",
     hintRevealed: "მინიშნებამ გახსნა ასო",
+    hintPenalty: (points) => `მინიშნება: −${points} ქულა`,
     soundOn: "ხმა ჩართულია",
     soundOff: "ხმა გამორთულია",
     mistakesLeft: (count) => `დარჩენილია ${count} შეცდომა`,
@@ -843,6 +845,7 @@ const I18N = {
     helpIntro: "Choose letters to reveal the hidden programming term. You can make up to six mistakes before the round ends.",
     helpInput: "Switch between the onscreen and physical keyboard whenever you like.",
     helpHint: "If you get stuck, a hint can reveal one letter.",
+    helpHintPenalty: "Each hint deducts: Easy −10, Medium −15, Hard −20, and Epic −30 points.",
     helpDifficulty: "Choose a difficulty for every new challenge.",
     helpStreak: "Win consecutive rounds to grow your streak.",
     gotIt: "Got it!",
@@ -865,6 +868,7 @@ const I18N = {
     correctAnswer: "The correct answer was",
     points: "points",
     hintRevealed: "The hint revealed",
+    hintPenalty: (points) => `Hint: −${points} points`,
     soundOn: "Sound is on",
     soundOff: "Sound is off",
     mistakesLeft: (count) => `${count} mistakes remaining`,
@@ -885,10 +889,10 @@ const TRACKS = {
 };
 
 const DIFFICULTIES = {
-  easy: { multiplier: 1 },
-  medium: { multiplier: 1.5 },
-  hard: { multiplier: 2 },
-  epic: { multiplier: 3 }
+  easy: { multiplier: 1, hintPenalty: 10 },
+  medium: { multiplier: 1.5, hintPenalty: 15 },
+  hard: { multiplier: 2, hintPenalty: 20 },
+  epic: { multiplier: 3, hintPenalty: 30 }
 };
 
 /* --- თამაშის მდგომარეობა --- */
@@ -898,6 +902,7 @@ let currentLanguage = localStorage.getItem("hangoLanguage") === "en" ? "en" : "k
 let currentWord = getMatchingWords()[0];
 let guessedLetters = new Set();
 let mistakes = 0;
+let hintsUsed = 0;
 let round = 1;
 let gameFinished = false;
 let soundEnabled = true;
@@ -1180,7 +1185,10 @@ function finishGame(hasWon) {
 
   if (hasWon) {
     const baseScore = Math.max(20, 100 - mistakes * 10);
-    const roundScore = Math.round(baseScore * DIFFICULTIES[selectedDifficulty].multiplier);
+    const difficulty = DIFFICULTIES[selectedDifficulty];
+    const grossScore = Math.round(baseScore * difficulty.multiplier);
+    const totalHintPenalty = hintsUsed * difficulty.hintPenalty;
+    const roundScore = Math.max(10, grossScore - totalHintPenalty);
 
     stats.score += roundScore;
     stats.wins += 1;
@@ -1212,6 +1220,7 @@ function startNewGame(showMessage = false) {
   currentWord = getNextWord();
   guessedLetters = new Set();
   mistakes = 0;
+  hintsUsed = 0;
   gameFinished = false;
   round += 1;
 
@@ -1236,10 +1245,13 @@ function revealHintLetter() {
   }
 
   const revealedLetter = hiddenLetters[Math.floor(Math.random() * hiddenLetters.length)];
+  const penalty = DIFFICULTIES[selectedDifficulty].hintPenalty;
+
+  hintsUsed += 1;
   hintBox.classList.remove("is-flashing");
   void hintBox.offsetWidth;
   hintBox.classList.add("is-flashing");
-  showToast(`${t("hintRevealed")} “${revealedLetter}”`);
+  showToast(`${t("hintPenalty", penalty)} · ${t("hintRevealed")} “${revealedLetter}”`);
   makeGuess(revealedLetter);
 }
 
