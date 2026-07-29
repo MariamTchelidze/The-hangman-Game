@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ka">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#6c5ce7" />
+    <meta name="description" content="თანამედროვე ქართული სიტყვების თამაში თემებით, დონეებითა და მინიშნებებით." />
+    <title>ჩამოხრჩობანა — ქართული სიტყვების თამაში</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <!-- დეკორატიული ფონი -->
+    <div class="background-shape background-shape--one" aria-hidden="true"></div>
+    <div class="background-shape background-shape--two" aria-hidden="true"></div>
+
+    <!-- აპლიკაციის ზედა ზოლი -->
+    <header class="app-header">
+      <a class="brand" href="#" aria-label="ჩამოხრჩობანა — მთავარი" data-i18n-aria="brandLabel">
+        <span class="brand__face" aria-hidden="true">
+          <span class="brand__eye"></span>
+          <span class="brand__eye"></span>
+          <span class="brand__smile"></span>
+        </span>
+        <span data-i18n="brand">ჩამოხრჩობანა</span>
+      </a>
+
+      <div class="header-actions">
+        <div class="streak" aria-label="მიმდინარე სერია" data-i18n-aria="currentStreak">
+          <span class="streak__flame" aria-hidden="true">🔥</span>
+          <span id="streakCount">3</span>
+        </div>
+        <button
+          class="icon-button"
+          id="themeButton"
+          type="button"
+          aria-label="მუქი რეჟიმის ჩართვა"
+          aria-pressed="false"
+        >
+          <span aria-hidden="true">🌙</span>
+        </button>
+        <button class="icon-button" id="soundButton" type="button" aria-label="ხმის გამორთვა" aria-pressed="false">
+          <span aria-hidden="true">🔊</span>
+        </button>
+        <button class="icon-button" id="helpButton" type="button" aria-label="თამაშის წესები">
+          <span aria-hidden="true">?</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- თამაშის შერჩევა -->
+    <main class="game-shell">
+      <section class="game-options" aria-labelledby="optionsTitle">
+        <div class="game-options__heading">
+          <p class="eyebrow" data-i18n="createRound">შექმენი შენი რაუნდი</p>
+          <h1 id="optionsTitle" data-i18n="chooseChallenge">აირჩიე გამოწვევა</h1>
+        </div>
+
+        <label class="option-group" for="trackChoices">
+          <span class="option-group__label" data-i18n="technologyTrack">მიმართულება</span>
+          <span class="select-wrap">
+            <span class="select-wrap__icon" aria-hidden="true">💻</span>
+            <select class="option-select" id="trackChoices">
+              <option value="html">HTML</option>
+              <option value="css">CSS</option>
+              <option value="scss">SCSS</option>
+              <option value="javascript">JavaScript</option>
+            </select>
+          </span>
+        </label>
+
+        <label class="option-group" for="difficultyChoices">
+          <span class="option-group__label" data-i18n="difficulty">სირთულე</span>
+          <span class="select-wrap">
+            <span class="select-wrap__icon" aria-hidden="true">⚡</span>
+            <select class="option-select" id="difficultyChoices">
+              <option value="easy">🌱 მარტივი</option>
+              <option value="medium">⚡ საშუალო</option>
+              <option value="hard">🔥 რთული</option>
+              <option value="epic">👑 ეპიკური</option>
+            </select>
+          </span>
+        </label>
+
+        <label class="option-group" for="languageChoices">
+          <span class="option-group__label" data-i18n="language">ენა</span>
+          <span class="select-wrap">
+            <span class="select-wrap__icon" aria-hidden="true">🌐</span>
+            <select class="option-select" id="languageChoices">
+              <option value="ka">🇬🇪 ქართული</option>
+              <option value="en">🇬🇧 English</option>
+            </select>
+          </span>
+        </label>
+      </section>
+
+      <!-- თამაშის დაფა -->
+      <section class="game-card" aria-labelledby="gameTitle">
+        <div class="game-card__top">
+          <div>
+            <p class="eyebrow"><span data-i18n="round">რაუნდი</span> <span id="roundNumber">1</span> · <span id="difficultyName">მარტივი</span></p>
+            <h2 id="gameTitle" data-i18n="guessWord">გამოიცანი სიტყვა!</h2>
+            <p class="game-subtitle" data-i18n="gameSubtitle">აირჩიე ასო და არ დაკარგო ყველა გული.</p>
+          </div>
+
+          <div class="lives" aria-label="დარჩენილი შეცდომები">
+            <span class="lives__label" data-i18n="lives">სიცოცხლე</span>
+            <div class="lives__hearts" id="livesHearts"></div>
+          </div>
+        </div>
+
+        <div class="game-board">
+          <!-- თამაშის ილუსტრაცია -->
+          <div class="illustration-panel">
+            <div class="category-badge">
+              <span aria-hidden="true" id="categoryIcon">💻</span>
+              <span id="categoryName">ტექნოლოგია</span>
+            </div>
+
+            <div class="hangman" id="hangman" aria-label="საკიდარის ნახატი: შეცდომა არ არის">
+              <div class="gallows gallows--base"></div>
+              <div class="gallows gallows--post"></div>
+              <div class="gallows gallows--beam"></div>
+              <div class="gallows gallows--brace"></div>
+              <div class="gallows gallows--rope"></div>
+
+              <div class="character">
+                <div class="character__head hangman-part" data-part="0">
+                  <span class="character__eye character__eye--left"></span>
+                  <span class="character__eye character__eye--right"></span>
+                  <span class="character__mouth"></span>
+                </div>
+                <div class="character__body hangman-part" data-part="1"></div>
+                <div class="character__arm character__arm--left hangman-part" data-part="2"></div>
+                <div class="character__arm character__arm--right hangman-part" data-part="3"></div>
+                <div class="character__leg character__leg--left hangman-part" data-part="4"></div>
+                <div class="character__leg character__leg--right hangman-part" data-part="5"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- სიტყვა და მართვის ელემენტები -->
+          <div class="play-panel">
+            <div class="progress-track" aria-label="რაუნდის პროგრესი">
+              <span id="progressBar"></span>
+            </div>
+
+            <div class="word-display" id="wordDisplay" aria-label="დამალული სიტყვა"></div>
+
+            <div class="hint-box" id="hintBox">
+              <span class="hint-box__icon" aria-hidden="true">💡</span>
+              <p><strong data-i18n="hintLabel">მინიშნება:</strong> <span id="hintText"></span></p>
+            </div>
+
+          <p class="keyboard-label" id="keyboardLabel" data-i18n="keyboardLabel">დააჭირე ასოს ეკრანზე ან კლავიატურაზე</p>
+            <div class="keyboard" id="keyboard" aria-labelledby="keyboardLabel"></div>
+
+            <div class="game-actions">
+              <button class="button button--secondary" id="hintButton" type="button">
+                <span aria-hidden="true">💡</span>
+                <span data-i18n="useHint">მინიშნება</span>
+              </button>
+              <button class="button button--primary" id="newGameButton" type="button">
+                <span data-i18n="newWord">ახალი სიტყვა</span>
+                <span aria-hidden="true">↻</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- მოთამაშის სტატისტიკა -->
+      <aside class="stats-row" aria-label="მოთამაშის სტატისტიკა">
+        <div class="stat-card">
+          <span class="stat-card__icon stat-card__icon--yellow" aria-hidden="true">⭐</span>
+          <span><strong id="scoreCount">0</strong><small data-i18n="score">ქულა</small></span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__icon stat-card__icon--green" aria-hidden="true">✓</span>
+          <span><strong id="winCount">0</strong><small data-i18n="wordsWon">გამოცნობილი სიტყვა</small></span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__icon stat-card__icon--purple" aria-hidden="true">🏆</span>
+          <span><strong id="bestStreak">0</strong><small data-i18n="bestStreak">საუკეთესო სერია</small></span>
+        </div>
+      </aside>
+    </main>
+
+    <!-- შედეგის ფანჯარა -->
+    <dialog class="result-dialog" id="resultDialog">
+      <div class="result-dialog__celebration" id="resultEmoji" aria-hidden="true">🎉</div>
+      <p class="eyebrow" id="resultEyebrow">ყოჩაღ!</p>
+      <h2 id="resultTitle">სიტყვა გამოიცანი!</h2>
+      <p id="resultMessage">სიტყვა იყო <strong>თბილისი</strong>.</p>
+      <button class="button button--primary button--wide" id="playAgainButton" type="button">
+        <span data-i18n="nextWord">შემდეგი სიტყვა</span>
+        <span aria-hidden="true">→</span>
+      </button>
+    </dialog>
+
+    <!-- დახმარების ფანჯარა -->
+    <dialog class="help-dialog" id="helpDialog">
+      <button class="dialog-close" id="closeHelpButton" type="button" aria-label="დახურვა" data-i18n-aria="close">×</button>
+      <span class="help-dialog__icon" aria-hidden="true">👋</span>
+      <h2 data-i18n="howToPlay">როგორ ვითამაშოთ?</h2>
+      <p data-i18n="helpIntro">აირჩიე ასოები და გამოიცანი დამალული პროგრამირების ტერმინი. რაუნდის დასრულებამდე ექვსი შეცდომის უფლება გაქვს.</p>
+      <ul>
+        <li data-i18n="helpInput">ეკრანისა და ფიზიკური კლავიატურის გამოყენება ნებისმიერ დროს შეგიძლია.</li>
+        <li data-i18n="helpHint">თუ გაიჭედე, მინიშნება ერთ ასოს გაგიხსნის.</li>
+        <li data-i18n="helpDifficulty">აირჩიე სირთულე ყოველი ახალი გამოწვევისთვის.</li>
+        <li data-i18n="helpStreak">ზედიზედ მოგებული რაუნდები შენს სერიას გაზრდის.</li>
+      </ul>
+      <button class="button button--primary button--wide" id="gotItButton" type="button" data-i18n="gotIt">გასაგებია!</button>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
