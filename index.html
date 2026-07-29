@@ -6,8 +6,7 @@
     <meta name="theme-color" content="#6c5ce7" />
     <meta name="description" content="თანამედროვე ქართული სიტყვების თამაში თემებით, დონეებითა და მინიშნებებით." />
     <title>ჩამოხრჩობანა — ქართული სიტყვების თამაში</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="./assets/styles/styles.css" />
   </head>
   <body>
     <!-- დეკორატიული ფონი -->
@@ -98,7 +97,10 @@
       <section class="game-card" aria-labelledby="gameTitle">
         <div class="game-card__top">
           <div>
-            <p class="eyebrow"><span data-i18n="round">რაუნდი</span> <span id="roundNumber">1</span> · <span id="difficultyName">მარტივი</span></p>
+            <p class="eyebrow">
+              <span data-i18n="round">რაუნდი</span> <span id="roundNumber">1</span> ·
+              <span id="difficultyName">მარტივი</span>
+            </p>
             <h2 id="gameTitle" data-i18n="guessWord">გამოიცანი სიტყვა!</h2>
             <p class="game-subtitle" data-i18n="gameSubtitle">აირჩიე ასო და არ დაკარგო ყველა გული.</p>
           </div>
@@ -152,7 +154,9 @@
               <p><strong data-i18n="hintLabel">მინიშნება:</strong> <span id="hintText"></span></p>
             </div>
 
-          <p class="keyboard-label" id="keyboardLabel" data-i18n="keyboardLabel">დააჭირე ასოს ეკრანზე ან კლავიატურაზე</p>
+            <p class="keyboard-label" id="keyboardLabel" data-i18n="keyboardLabel">
+              დააჭირე ასოს ეკრანზე ან კლავიატურაზე
+            </p>
             <div class="keyboard" id="keyboard" aria-labelledby="keyboardLabel"></div>
 
             <div class="game-actions">
@@ -200,20 +204,30 @@
 
     <!-- დახმარების ფანჯარა -->
     <dialog class="help-dialog" id="helpDialog">
-      <button class="dialog-close" id="closeHelpButton" type="button" aria-label="დახურვა" data-i18n-aria="close">×</button>
+      <button class="dialog-close" id="closeHelpButton" type="button" aria-label="დახურვა" data-i18n-aria="close">
+        ×
+      </button>
       <span class="help-dialog__icon" aria-hidden="true">👋</span>
       <h2 data-i18n="howToPlay">როგორ ვითამაშოთ?</h2>
-      <p data-i18n="helpIntro">აირჩიე ასოები და გამოიცანი დამალული პროგრამირების ტერმინი. რაუნდის დასრულებამდე ექვსი შეცდომის უფლება გაქვს.</p>
+      <p data-i18n="helpIntro">
+        აირჩიე ასოები და გამოიცანი დამალული პროგრამირების ტერმინი. რაუნდის დასრულებამდე ექვსი შეცდომის უფლება გაქვს.
+      </p>
       <ul>
         <li data-i18n="helpInput">ეკრანისა და ფიზიკური კლავიატურის გამოყენება ნებისმიერ დროს შეგიძლია.</li>
         <li data-i18n="helpHint">თუ გაიჭედე, მინიშნება ერთ ასოს გაგიხსნის.</li>
-        <li data-i18n="helpHintPenalty">თითო მინიშნება აკლებს: მარტივი −10, საშუალო −15, რთული −20, ეპიკური −30 ქულა.</li>
+        <li data-i18n="helpHintPenalty">
+          თითო მინიშნება აკლებს: მარტივი −10, საშუალო −15, რთული −20, ეპიკური −30 ქულა.
+        </li>
         <li data-i18n="helpDifficulty">აირჩიე სირთულე ყოველი ახალი გამოწვევისთვის.</li>
         <li data-i18n="helpStreak">ზედიზედ მოგებული რაუნდები შენს სერიას გაზრდის.</li>
       </ul>
-      <button class="button button--primary button--wide" id="gotItButton" type="button" data-i18n="gotIt">გასაგებია!</button>
+      <button class="button button--primary button--wide" id="gotItButton" type="button" data-i18n="gotIt">
+        გასაგებია!
+      </button>
     </dialog>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="./assets/script/script.js" defer></script>
   </body>
 </html>
