@@ -1280,7 +1280,7 @@ function setTheme(theme) {
   const isDark = theme === "dark";
 
   document.documentElement.dataset.theme = theme;
-  document.querySelector('meta[name="theme-color"]').content = isDark ? "#191720" : "#6c5ce7";
+  document.querySelector('meta[name="theme-color"]').content = isDark ? "#171a16" : "#4f6b3a";
   themeButton.setAttribute("aria-pressed", String(isDark));
   themeButton.firstElementChild.textContent = isDark ? "☀️" : "🌙";
   localStorage.setItem("hangoTheme", theme);
